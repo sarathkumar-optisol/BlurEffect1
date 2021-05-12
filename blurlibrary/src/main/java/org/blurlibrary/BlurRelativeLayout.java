@@ -20,7 +20,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
 
 import org.blurlibrary.BlurRenderer;
 
@@ -31,6 +35,8 @@ public class BlurRelativeLayout extends RelativeLayout {
 
     // Blur renderer instance
     private BlurRenderer mBlurRenderer;
+
+
 
     /**
      * Default constructor
@@ -52,6 +58,8 @@ public class BlurRelativeLayout extends RelativeLayout {
      * Initialize layout to handle background blur effect
      */
     private void init(AttributeSet attrs) {
+
+        Log.d("BlurRelativeLayout","init");
         mBlurRenderer = new BlurRenderer(this);
 
         // Read blur radius from layout variables
@@ -68,25 +76,32 @@ public class BlurRelativeLayout extends RelativeLayout {
 
     @Override
     protected void onAttachedToWindow() {
+        Log.d("BlurRelativeLayout","OnAttachedWindow");
         super.onAttachedToWindow();
         mBlurRenderer.onAttachedToWindow();
+        Log.d("BlurRelativeLayout","OnAttachedWindow1");
+
     }
 
     @Override
     protected void onDetachedFromWindow() {
+        Log.d("BlurRelativeLayout","onDetachedFromWindow");
         super.onDetachedFromWindow();
         mBlurRenderer.onDetachedFromWindow();
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
+        Log.d("BlurRelativeLayout","dispatchDraw");
         // If this is off-screen pass apply blur only
         if (mBlurRenderer.isOffscreenCanvas(canvas)) {
+            Log.d("BlurRelativeLayout","dispatchDrawINSIDEIF");
             mBlurRenderer.applyBlur();
         }
         // Otherwise draw blurred background image and continue to child views
         else {
             mBlurRenderer.drawToCanvas(canvas);
+            Log.d("BlurRelativeLayout","dispatchDrawINSIDEELSE");
             super.dispatchDraw(canvas);
         }
     }
@@ -95,7 +110,10 @@ public class BlurRelativeLayout extends RelativeLayout {
      * Set blur radius in pixels
      */
     public void setBlurRadius(int radius) {
+        Log.d("BlurRelativeLayout","setBlurRadius");
+        Log.d("BlurRelativeLayout", String.valueOf(radius));
         mBlurRenderer.setBlurRadius(radius);
-        invalidate();
+//        invalidate();
     }
+
 }

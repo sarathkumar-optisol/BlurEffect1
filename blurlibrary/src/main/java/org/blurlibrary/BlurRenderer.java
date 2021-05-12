@@ -136,6 +136,10 @@ public class BlurRenderer {
      */
     public void applyBlur() {
         // Copy current bitmap into allocation
+        if (mAllocationBitmap == null){
+            drawOffscreenBitmap();
+        }
+
         mAllocationBitmap.copyFrom(mBitmap);
 
         // Set script variables
@@ -165,10 +169,8 @@ public class BlurRenderer {
      * Draws off-screen bitmap into current canvas
      */
     public void drawToCanvas(Canvas canvas) {
-        if (mBitmap != null) {
             // Draw off-screen bitmap using inverse of the scale matrix
             canvas.drawBitmap(mBitmap, mMatrixScaleInv, null);
-        }
     }
 
     /**
